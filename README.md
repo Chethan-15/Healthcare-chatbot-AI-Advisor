@@ -4,14 +4,13 @@ A web-based AI-powered chatbot designed to assist users by predicting possible d
 
 
 🚀 Features
+🔍 Symptom-based disease prediction using machine learning
 
-Symptom-based disease prediction
+💊 Personalized health guidance (medications, diet, precautions, workouts)
 
-Personalized health guidance
+💬 Interactive and user-friendly chatbot interface
 
-Interactive chatbot interface
-
-Lightweight and responsive frontend
+📱 Lightweight and responsive frontend design
 
 🛠️ Tech Stack
 Backend: Python, Flask, Random Forest (scikit-learn)
