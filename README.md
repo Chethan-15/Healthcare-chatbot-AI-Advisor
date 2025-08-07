@@ -4,6 +4,7 @@ A web-based AI-powered chatbot designed to assist users by predicting possible d
 
 
 🚀 Features
+
 🔍 Symptom-based disease prediction using machine learning
 
 💊 Personalized health guidance (medications, diet, precautions, workouts)
