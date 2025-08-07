@@ -13,6 +13,7 @@ A web-based AI-powered chatbot designed to assist users by predicting possible d
 
 📱 Lightweight and responsive frontend design
 
+🛠️ Tech Stack
 Backend:
 
 * Python
