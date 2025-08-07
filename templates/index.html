@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Health Care Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #0a0a0a;
+  color: #e0f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+ background-image: url("{{ url_for('static', filename='background.png') }}");
+  background-size: cover;           /* Covers full screen */
+  background-position: center;      /* Keeps image centered */
+  background-repeat: no-repeat;     /* Prevent tiling */
+  background-attachment: fixed;     /* Keeps it fixed on scroll */
+}
+  .navbar {
+    background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+  }
+
+  .navbar-brand, .nav-link {
+    color: #e0f7fa !important;
+    text-shadow: 0 0 4px #00ffff;
+  }
+
+  .nav-link:hover {
+    color: #76ff03 !important;
+    transform: translateY(-2px);
+    transition: 0.2s ease-in-out;
+  }
+
+  .logo img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 2px solid #76ff03;
+    box-shadow: 0 0 10px #76ff03;
+  }
+
+  .container-custom {
+    background: linear-gradient(145deg, #1e1e1e, #292929);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 10px 10px 20px #050505, -10px -10px 20px #1a1a1a;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .container-custom:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
+  }
+
+  .btn-primary, .btn-danger {
+    border-radius: 30px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.2);
+  }
+
+  .btn-primary {
+    background: linear-gradient(145deg, #00e5ff, #00bcd4);
+    border: none;
+    color: #000;
+  }
+
+  .btn-primary:hover {
+    background: #00bcd4;
+    transform: scale(1.05);
+  }
+
+  .btn-danger {
+    background: linear-gradient(145deg, #ff5252, #f44336);
+    border: none;
+  }
+
+  .btn-danger:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+  }
+
+  .modal-content {
+    background: linear-gradient(145deg, #202020, #2a2a2a);
+    color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  }
+
+  .modal-header {
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #00e5ff;
+  }
+
+  .toggle-button {
+    background: #141414;
+    color: #00e5ff;
+    border: 2px solid #00e5ff;
+    margin: 5px;
+    border-radius: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .toggle-button:hover {
+    background-color: #00e5ff;
+    color: #000;
+    transform: translateY(-2px) scale(1.05);
+  }
+
+  .form-control {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 12px;
+    border: 2px solid #00e5ff;
+    background-color: #1c1c1c;
+    color: #ffffff;
+    box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2);
+  }
+
+  .form-control:focus {
+    border-color: #76ff03;
+    box-shadow: 0 0 10px rgba(118, 255, 3, 0.5);
+  }
+
+  .btn-sm-custom {
+    font-size: 0.8rem;
+    padding: 0.4rem 1rem;
+  }
+
+  #transcription {
+    font-style: italic;
+    color: #00e5ff;
+    margin-top: 5px;
+    text-shadow: 0 0 6px #00e5ff;
+  }
+</style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container-fluid">
+        <div class="logo">
+          <img src="{{ url_for('static', filename='health.png') }}" alt="Logo">
+        </div>
+        <a class="navbar-brand ms-2" href="#">Health Center</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="/developer">Developer</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Health Care Chatbot</h1>
+      <div class="container-custom">
+        <form action="/predict" method="post">
+          <div class="mb-3">
+            <label for="symptoms" class="form-label">Enter Symptoms</label>
+            <input type="text" class="form-control" id="symptoms" name="symptoms" placeholder="e.g. itching, coughing, aching">
+          </div>
+          <button type="button" id="startSpeechRecognition" class="btn btn-primary btn-sm-custom mb-3">Start Speech Recognition</button>
+          <div id="transcription" class="mb-3"></div>
+          {% if message %}<p>{{ message }}</p>{% endif %}
+          <button type="submit" class="btn btn-danger btn-sm-custom w-auto">Predict</button>
+        </form>
+      </div>
+    </div>
+
+    {% if predicted_disease %}
+    <div class="container text-center mt-5">
+      <h2 class="mb-3">AI Diagnosis Results</h2>
+      <div>
+        <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#diseaseModal">Disease</button>
+        <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#descriptionModal">Description</button>
+        <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#precautionModal">Precautions</button>
+        <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#medicationsModal">Medications</button>
+        <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#workoutsModal">Workouts</button>
+        <button class="toggle-button" data-bs-toggle="modal" data-bs-target="#dietsModal">Diets</button>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Modals -->
+    {% for modal_id, title, content in [
+      ('diseaseModal', 'Predicted Disease', predicted_disease),
+      ('descriptionModal', 'Description', dis_des),
+      ('precautionModal', 'Precautions', my_precautions),
+      ('medicationsModal', 'Medications', medications),
+      ('workoutsModal', 'Workouts', workout),
+      ('dietsModal', 'Diets', my_diet)] %}
+    <div class="modal fade" id="{{ modal_id }}" tabindex="-1" aria-labelledby="{{ modal_id }}Label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="{{ modal_id }}Label">{{ title }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            {% if modal_id in ['precautionModal', 'medicationsModal', 'workoutsModal', 'dietsModal'] %}
+            <ul>
+              {% for item in content %}<li>{{ item }}</li>{% endfor %}
+            </ul>
+            {% else %}
+            <p>{{ content }}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+<script>
+  const startSpeechRecognitionButton = document.getElementById('startSpeechRecognition');
+  const symptomsInput = document.getElementById('symptoms');
+
+
+  startSpeechRecognitionButton.addEventListener('click', () => {
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'en-US';
+
+    recognition.onresult = (event) => {
+      const result = event.results[0][0].transcript;
+
+      symptomsInput.value = result; // 
+    };
+
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+    };
+
+    recognition.start();
+  });
+</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
