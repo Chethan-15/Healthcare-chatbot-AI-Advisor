@@ -14,6 +14,7 @@ A web-based AI-powered chatbot designed to assist users by predicting possible d
 📱 Lightweight and responsive frontend design
 
 Layer             	Technologies
+
 Backend         	Python, Flask, Random Forest (scikit-learn)
 Frontend	        HTML, CSS, JavaScript, Bootstrap
 ML Model	        Symptom dataset, Trained Random Forest model
