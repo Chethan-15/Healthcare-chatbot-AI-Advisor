@@ -16,16 +16,17 @@ A web-based AI-powered chatbot designed to assist users by predicting possible d
 🛠️ Tech Stack
 Backend:
 
-  Python 3.x - Core programming language
-  Flask - Web framework for REST API
-  Flask-CORS - Cross-Origin Resource Sharing support
-  NumPy - Numerical computing
-  Pandas - Data manipulation and analysis
-  scikit-learn - Machine learning library
-  Random Forest Classifier for disease prediction
-  Label Encoder for data preprocessing
-  Train-test split for model validation
-  Frontend
+- **Python 3.x** – Core programming language  
+- **Flask** – Web framework for REST API  
+- **Flask-CORS** – Cross-Origin Resource Sharing support  
+- **NumPy** – Numerical computing  
+- **Pandas** – Data manipulation and analysis  
+- **scikit-learn** – Machine learning library  
+- **Random Forest Classifier** – Disease prediction model  
+- **Label Encoder** – Data preprocessing  
+- **Train-Test Split** – Model validation  
+
+
 
 Frontend:
 
