@@ -40,8 +40,18 @@ Backend:
 - **Autoprefixer 10.4.23** – CSS vendor prefixing
 
 
-Machine Learning:
+## Machine Learning
 
-* Symptom dataset
-* Trained Random Forest model for classification
+- **Random Forest Algorithm** – Disease classification model  
+- **Pickle** – Model serialization and loading  
+
+### Custom Datasets
+
+- **Symptoms Dataset** – 132 symptoms mapped to 41 diseases  
+- **Precautions Dataset**  
+- **Medications Dataset**  
+- **Diet Recommendations Dataset**  
+- **Workout Recommendations Dataset**  
+- **Disease Descriptions Dataset**
+
 
