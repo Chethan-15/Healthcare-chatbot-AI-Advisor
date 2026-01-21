@@ -10,6 +10,8 @@ import difflib
 
 # flask app
 app = Flask(__name__)
+from flask_cors import CORS
+CORS(app)
 
 # Load datasets
 sym_des = pd.read_csv("D:\healthcare-chatbot\Datasets/symtoms_df.csv")
@@ -64,6 +66,7 @@ def helper(dis):
     die = diets[diets['Disease'] == dis]['Diet']
     die = [die for die in die.values]
     wrkout = workout[workout['disease'] == dis]['workout']
+    wrkout = [w for w in wrkout.values]
     return desc, pre, med, die, wrkout
 
 # Your original symptoms_dict
@@ -104,10 +107,20 @@ def index():
 @app.route('/predict', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        symptoms = request.form.get('symptoms')
-        print(f"Raw input symptoms: {symptoms}")
+        # Check if request is JSON (from React app)
+        if request.is_json:
+            data = request.json
+            symptoms = data.get('symptoms', '')
+            print(f"API Input symptoms: {symptoms}")
+        else:
+            # Fallback for form submit
+            symptoms = request.form.get('symptoms')
+            print(f"Form Input symptoms: {symptoms}")
+
         if symptoms == "Symptoms" or not symptoms.strip():
             message = "Please enter valid symptoms."
+            if request.is_json:
+                return jsonify({'error': message}), 400
             return render_template('index.html', message=message)
         else:
             # Parse symptoms from input string
@@ -125,11 +138,25 @@ def home():
 
             if not user_symptoms:
                 message = "No valid symptoms found after autocorrect. Please try again."
+                if request.is_json:
+                    return jsonify({'error': message}), 400
                 return render_template('index.html', message=message)
 
             predicted_disease = get_predicted_value(user_symptoms)
             dis_des, precautions_list, medications, rec_diet, workout = helper(predicted_disease)
             my_precautions = [i for i in precautions_list[0]]
+
+            # JSON Response for React
+            if request.is_json:
+                return jsonify({
+                    'disease': predicted_disease,
+                    'description': dis_des,
+                    'precautions': my_precautions,
+                    'medications': medications,
+                    'diet': rec_diet,
+                    'workout': workout
+                })
+
             return render_template('index.html', predicted_disease=predicted_disease, dis_des=dis_des,
                                    my_precautions=my_precautions, medications=medications,
                                    my_diet=rec_diet, workout=workout)
