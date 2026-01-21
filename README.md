@@ -28,12 +28,17 @@ Backend:
 
 
 
-Frontend:
+## Frontend Technologies
 
-* HTML
-* CSS
-* JavaScript
-* Bootstrap
+- **React 19.2.0** – UI library  
+- **Vite 7.2.4** – Build tool and development server  
+- **React Router DOM 7.12.0** – Client-side routing  
+- **Framer Motion 12.27.5** – Animation library  
+- **Lucide React 0.562.0** – Icon library  
+- **TailwindCSS 4.1.18** – Utility-first CSS framework  
+- **PostCSS 8.5.6** – CSS processing  
+- **Autoprefixer 10.4.23** – CSS vendor prefixing
+
 
 Machine Learning:
 
